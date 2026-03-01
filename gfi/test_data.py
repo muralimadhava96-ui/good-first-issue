@@ -47,13 +47,11 @@ class TestDataSanity(unittest.TestCase):
         assert "labels" in data
 
     @staticmethod
-    def test_no_duplicates():
-        """Verify that all entries are unique."""
-        data = _get_data_from_toml(DATA_FILE_PATH)
-        repos = data.get("repositories", [])
-        print([item for item, count in Counter(repos).items() if count > 1])
-        assert len(repos) == len(set(repos))
-
+    def test_no_duplicates(self):
+    data = _get_data_from_toml(DATA_FILE_PATH)
+    repos = data.get("repositories", [])
+    duplicates = [item for item, count in Counter(repos).items() if count > 1]
+    self.assertEqual(len(duplicates), 0, f"Duplicate repositories found: {duplicates}")
 
 if __name__ == "__main__":
     unittest.main()
